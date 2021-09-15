@@ -6,6 +6,12 @@ import numpy as np
 import mediapipe as mp
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+import logging
+logging.basicConfig(filename="newfile.log",
+                    format='%(asctime)s %(message)s',
+                    filemode='w')
+log=logging.getLogger()
+log.setLevel(logging.DEBUG)
 
 # initialize mediapipe
 mpHands = mp.solutions.hands
@@ -39,6 +45,7 @@ while True:
     result = hands.process(framergb)
 
     print(result)
+    log.debug("RESULT" + result)
     
     className = ''
 
@@ -59,6 +66,7 @@ while True:
             # Predict gesture
             prediction = model.predict([landmarks])
             print(prediction)
+            log.debug("PREDCICTION" + prediction)
             classID = np.argmax(prediction)
             className = classNames[classID]
 
